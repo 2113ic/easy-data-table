@@ -1,6 +1,6 @@
 export type SortType = 'asc' | 'desc'
 
-export type FilterComparison = '=' | '!=' | '>' | '>=' | '<' | '<=' | 'between'| 'in';
+export type FilterComparison = '=' | '!=' | '>' | '>=' | '<' | '<=' | 'between' | 'in'
 
 export type Item = Record<string, any>
 
@@ -26,7 +26,7 @@ export type FilterOption = {
   criteria: string
 }
 
-export type Header = {
+export interface Header {
   text: string
   value: string
   sortable?: boolean
@@ -34,7 +34,7 @@ export type Header = {
   width?: number
 }
 
-export type ServerOptions = {
+export interface ServerOptions {
   page: number
   rowsPerPage: number
   sortBy?: string | string[]
@@ -46,7 +46,7 @@ export type ClickRowArgument = Item & {
   indexInCurrentPage?: number
 }
 
-export type UpdateSortArgument = {
+export interface UpdateSortArgument {
   sortType: SortType | null
   sortBy: string
 }

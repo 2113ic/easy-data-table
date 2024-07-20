@@ -1,9 +1,9 @@
-.DS_Store
-dist/
 node_modules/
+dist/
+
+.DS_Store
 npm-debug.log
 yarn-error.log
-*.tgz
 
 # Editor directories and files
 .idea
@@ -11,3 +11,4 @@ yarn-error.log
 *.ntvs*
 *.njsproj
 *.sln
+*.tgz

@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { inject } from 'vue'
+
+defineProps({
+  checked: { type: Boolean, required: true },
+})
+
+const emits = defineEmits(['change'])
+
+const themeColor = inject('themeColor')
+</script>
+
 <template>
   <div
     class="easy-checkbox"
@@ -10,18 +22,6 @@
     <label for="checbox" />
   </div>
 </template>
-
-<script setup lang="ts">
-import { inject } from 'vue';
-
-const emits = defineEmits(['change']);
-
-defineProps({
-  checked: { type: Boolean, required: true },
-});
-
-const themeColor = inject('themeColor');
-</script>
 
 <style lang="scss" scoped>
 @import '../scss/checbox.scss';

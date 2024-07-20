@@ -1,12 +1,12 @@
-<template>
-  <div class="loader-line"></div>
-</template>
-
 <script lang="ts" setup>
-import { inject } from 'vue';
+import { inject } from 'vue'
 
-const themeColor = inject('themeColor');
+const themeColor = inject('themeColor')
 </script>
+
+<template>
+  <div class="loader-line" />
+</template>
 
 <style lang="scss" scoped>
 .loader-line {

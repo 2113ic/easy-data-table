@@ -1,10 +1,6 @@
-import { PropType } from 'vue';
-import type {
-  SortType, Item, ServerOptions, FilterOption,
-  HeaderItemClassNameFunction, BodyItemClassNameFunction, BodyRowClassNameFunction,
-  TextDirection,
-} from './types/main';
-import type { ClickEventType } from './types/internal';
+import type { PropType } from 'vue'
+import type { BodyItemClassNameFunction, BodyRowClassNameFunction, FilterOption, HeaderItemClassNameFunction, Item, ServerOptions, SortType, TextDirection } from './types/main'
+import type { ClickEventType } from './types/internal'
 
 export default {
   alternating: {
@@ -96,7 +92,7 @@ export default {
     default: 'rows per page:',
   },
   searchField: {
-    type: [String, Array as PropType<String[]>],
+    type: [String, Array as PropType<string[]>],
     default: '',
   },
   searchValue: {
@@ -116,7 +112,7 @@ export default {
     default: false,
   },
   sortBy: {
-    type: [String, Array as PropType<String[]>],
+    type: [String, Array as PropType<string[]>],
     default: '',
   },
   sortType: {
@@ -197,6 +193,6 @@ export default {
   },
   preventContextMenuRow: {
     type: Boolean,
-    default: true
-  }
-};
+    default: true,
+  },
+}

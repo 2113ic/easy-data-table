@@ -1,3 +1,22 @@
+<script setup lang="ts">
+import type { PropType } from 'vue'
+import { computed, inject } from 'vue'
+
+const props = defineProps({
+  status: { type: String as PropType<'noneSelected' | 'partSelected' | 'allSelected'>, required: true },
+})
+
+const emits = defineEmits(['change'])
+
+const isChecked = computed(() => props.status === 'allSelected')
+
+function toggleChecked() {
+  emits('change', !isChecked.value)
+}
+
+const themeColor = inject('themeColor')
+</script>
+
 <template>
   <div
     class="easy-checkbox"
@@ -11,24 +30,6 @@
     <label for="checbox" />
   </div>
 </template>
-
-<script setup lang="ts">
-import { PropType, computed, inject } from 'vue';
-
-const emits = defineEmits(['change']);
-
-const props = defineProps({
-  status: { type: String as PropType<'noneSelected' | 'partSelected' | 'allSelected'>, required: true },
-});
-
-const isChecked = computed(() => props.status === 'allSelected');
-
-const toggleChecked = () => {
-  emits('change', !isChecked.value);
-};
-
-const themeColor = inject('themeColor');
-</script>
 
 <style lang="scss" scoped>
 @import '../scss/checbox.scss';

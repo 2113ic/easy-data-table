@@ -1,10 +1,23 @@
+<script lang="ts" setup>
+import { useSlots } from 'vue'
+
+defineProps({
+  isFirstPage: { type: Boolean, required: false },
+  isLastPage: { type: Boolean, required: false },
+})
+
+const emits = defineEmits(['clickPrevPage', 'clickNextPage'])
+
+const slots = useSlots()
+</script>
+
 <template>
   <div
     class="previous-page__click-button"
-    :class="{'first-page': isFirstPage}"
+    :class="{ 'first-page': isFirstPage }"
     @click="emits('clickPrevPage')"
   >
-    <span class="arrow arrow-right"></span>
+    <span class="arrow arrow-right" />
   </div>
   <slot
     v-if="slots.buttonsPagination"
@@ -12,25 +25,13 @@
   />
   <div
     class="next-page__click-button"
-    :class="{'last-page': isLastPage}"
+    :class="{ 'last-page': isLastPage }"
     @click="emits('clickNextPage')"
   >
-    <span class="arrow arrow-left"></span>
+    <span class="arrow arrow-left" />
   </div>
 </template>
 
-<script lang="ts" setup>
-import { useSlots } from 'vue';
-
-defineProps({
-  isFirstPage: { type: Boolean, required: false },
-  isLastPage: { type: Boolean, required: false },
-});
-
-const emits = defineEmits(['clickPrevPage', 'clickNextPage']);
-
-const slots = useSlots();
-</script>
 <style lang="scss" scoped>
   .previous-page__click-button, .next-page__click-button {
     margin: 0px 5px;

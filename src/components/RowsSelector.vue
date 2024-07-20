@@ -1,24 +1,94 @@
+<script lang="ts" setup>
+import type { PropType, Ref } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+
+const props = defineProps({
+  modelValue: { type: Number, required: true },
+  rowsItems: { type: Array as PropType<number[]>, required: true },
+})
+
+const emits = defineEmits(['update:modelValue'])
+
+const showList = ref(false)
+const showInsideOfTable = ref(false)
+
+const dataTable = inject('dataTable') as Ref<HTMLDivElement>
+
+watch(showList, (val) => {
+  if (val && dataTable) {
+    const windowHeight = window.innerHeight
+    const dataTableHeight = dataTable.value.getBoundingClientRect().height
+    const dataTableTop = dataTable.value.getBoundingClientRect().top
+    if ((windowHeight - (dataTableHeight + dataTableTop)) <= 100) {
+      showInsideOfTable.value = true
+    }
+    else {
+      showInsideOfTable.value = false
+    }
+  }
+})
+
+const rowsComputed = computed({
+  get: (): number => props.modelValue,
+  set: (value: number): void => {
+    emits('update:modelValue', value)
+  },
+})
+
+function changeSelectedRows(value: number) {
+  rowsComputed.value = value
+  showList.value = false
+}
+
+// Click outside to close rows selector
+function isDescendant(child, className) {
+  let node = child.parentNode
+  while (node != null) {
+    if (node.classList && node.classList.contains(className)) {
+      return true
+    }
+    node = node.parentNode
+  }
+  return false
+}
+
+function closeRowsSelector(e) {
+  if (!isDescendant(e.target, 'ed-table__rows-selector'))
+    showList.value = false
+}
+
+onMounted(() => {
+  document.addEventListener('click', closeRowsSelector)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', closeRowsSelector)
+})
+
+const themeColor = inject('themeColor')
+</script>
+
 <template>
   <div
-    class="easy-data-table__rows-selector"
+    class="ed-table__rows-selector"
   >
     <div
       class="rows-input__wrapper"
-      @click="showList=!showList"
+      @click="showList = !showList"
     >
       <div class="rows-input">
         {{ rowsComputed }}
       </div>
-      <div class="triangle"></div>
+      <div class="triangle" />
     </div>
     <ul
       class="select-items"
-      :class="{show: showList, inside: showInsideOfTable}"
+      :class="{ show: showList, inside: showInsideOfTable }"
     >
       <li
         v-for="item in rowsItems"
         :key="item"
-        :class="{selected: item === rowsComputed }"
+        :class="{ selected: item === rowsComputed }"
         @click="changeSelectedRows(item)"
       >
         {{ item }}
@@ -27,83 +97,14 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import {
-  ref, computed, PropType, onMounted, onBeforeUnmount, inject, watch, Ref,
-} from 'vue';
-
-const props = defineProps({
-  modelValue: { type: Number, required: true },
-  rowsItems: { type: Array as PropType<number[]>, required: true },
-});
-
-const emits = defineEmits(['update:modelValue']);
-
-const showList = ref(false);
-
-const showInsideOfTable = ref(false);
-const dataTable = inject('dataTable') as Ref<HTMLDivElement>;
-watch(showList, (val) => {
-  if (val && dataTable) {
-    const windowHeight = window.innerHeight;
-    const dataTableHeight = dataTable.value.getBoundingClientRect().height;
-    const dataTableTop = dataTable.value.getBoundingClientRect().top;
-    if ((windowHeight - (dataTableHeight + dataTableTop)) <= 100) {
-      showInsideOfTable.value = true;
-    } else {
-      showInsideOfTable.value = false;
-    }
-  }
-});
-
-const rowsComputed = computed({
-  get: (): number => props.modelValue,
-  set: (value: number): void => {
-    emits('update:modelValue', value);
-  },
-});
-
-const changeSelectedRows = (value: number) => {
-  rowsComputed.value = value;
-  showList.value = false;
-};
-
-// Click outside to close rows selector
-// @ts-ignore
-const isDescendant = (child, className) => {
-  let node = child.parentNode;
-  while (node != null) {
-    if (node.classList && node.classList.contains(className)) {
-      return true;
-    }
-    node = node.parentNode;
-  }
-  return false;
-};
-
-// @ts-ignore
-const closeRowsSelector = (e) => {
-  if (!isDescendant(e.target, 'easy-data-table__rows-selector')) showList.value = false;
-};
-
-onMounted(() => {
-  document.addEventListener('click', closeRowsSelector);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', closeRowsSelector);
-});
-
-const themeColor = inject('themeColor');
-</script>
-
 <style scoped lang="scss">
-.easy-data-table__rows-selector {
+.ed-table__rows-selector {
   display: inline-block;
   min-width: 45px;
   position: relative;
   margin: 0px 10px;
   width: var(--easy-table-rows-per-page-selector-width);
+
   .rows-input__wrapper {
     height: 20px;
     border-bottom: 1px solid var(--easy-table-footer-font-color);

@@ -1,14 +1,14 @@
+<script lang="ts" setup>
+import { inject } from 'vue'
+
+const themeColor = inject('themeColor')
+</script>
+
 <template>
   <div class="lds-ring">
-    <div></div><div></div><div></div><div></div>
+    <div /><div /><div /><div />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { inject } from 'vue';
-
-const themeColor = inject('themeColor');
-</script>
 
 <style lang="scss" scoped>
 .lds-ring {
@@ -46,5 +46,4 @@ const themeColor = inject('themeColor');
     transform: rotate(360deg);
   }
 }
-
 </style>
